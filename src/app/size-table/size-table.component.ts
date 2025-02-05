@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { Product } from './data.interface';
 import { MatTableModule } from '@angular/material/table';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { products } from './data';
 
 @Component({
@@ -9,26 +9,26 @@ import { products } from './data';
   standalone: true,
   templateUrl: './size-table.component.html',
   styleUrl: './size-table.component.css',
-  imports: [MatTableModule, CommonModule],
+  imports: [MatTableModule, CommonModule, JsonPipe],
 })
 export class SizeTableComponent {
-  products: Product[] = [];
-  uniqueColors: string[] = [];
-  uniqueSizes: string[] = [];
-  displayedColumns: string[] = [];
-  colorSizeMap = new Map<string, Map<string, Product>>();
+  products = signal<Product[]>([]);
+  colorSizeMap = <Map<string, Map<string, Product>>>(new Map());
+  displayedColumns = signal<string[]>(['color']);
+
+  uniqueColors = computed(() => Array.from(new Set(this.products().map(p => p.color))));
+  uniqueSizes = computed(() => Array.from(new Set(this.products().map(p => p.size))));
 
   constructor() {
-    this.products = products;
-    this.uniqueColors = Array.from(new Set(this.products.map(p => p.color)));
-    this.uniqueSizes = Array.from(new Set(this.products.map(p => p.size)));
-    this.products.forEach(product => {
+    this.products.set(products);
+    this.products().forEach(product => {
       if (!this.colorSizeMap.has(product.color)) {
         this.colorSizeMap.set(product.color, new Map());
       }
       this.colorSizeMap.get(product.color)!.set(product.size, product);
     });
-    this.displayedColumns = ['color', ...this.uniqueSizes];
+
+    this.displayedColumns.set(['color', ...this.uniqueSizes()]);
 
   }
 
