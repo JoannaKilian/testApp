@@ -32,15 +32,9 @@ export class SizeTableComponent {
 
   }
 
-  // Pobieranie produktu (jeśli brak, zwracamy obiekt z amount = 0)
-  getProduct(color: string, size: string): Product {
-    return this.colorSizeMap.get(color)?.get(size) ?? { id: -1, amount: 0, color, size };
-  }
-
-  // Obsługa kliknięcia w komórkę
   onCellClick(product: Product): void {
     if (product.id !== -1) {
-      console.log(`Kliknięto: ID ${product.id}, Color: ${product.color}, Size: ${product.size}`);
+      console.log(`ID ${product.id}, Color: ${product.color}, Size: ${product.size}`);
     }
   }
 }
