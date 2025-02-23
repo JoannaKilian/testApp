@@ -1,0 +1,21 @@
+table {
+
+  th, td {
+    text-align: center;
+    padding: 12px;
+  }
+  
+  .header-gray, th {
+    background-color: #333; 
+    color: white;
+  }
+  
+  .clickable {
+    cursor: pointer;
+  }
+ 
+  .gray-out {
+    background-color: lightgray;
+    cursor: none;
+  }
+}

@@ -1,0 +1,25 @@
+@if (this.columns(); as columns) {
+
+  @if (columns.length > 1) {
+    <table cdk-table tsmGenericTable class="w-100" [dataSource]="rows() ?? []">
+      <ng-container cdkColumnDef="color">
+        <th i18n *cdkHeaderCellDef cdk-header-cell class="size"> Color / Size </th>
+        <td *cdkCellDef="let color" cdk-cell class="header-gray size"> {{ color | uppercase }} </td>
+    </ng-container>
+    
+    @for (size of columns; track size) {
+      <ng-container [cdkColumnDef]="size">
+        <th *cdkHeaderCellDef cdk-header-cell> {{ size }} </th>
+        <td *cdkCellDef="let color" cdk-cell [ngClass]="{ clickable: getProductAmount(color, size) }">
+          @let vm = getProductAmount(color, size);
+          @if (vm) {
+            test {{vm.id}}
+          }
+        </td>
+      </ng-container>
+    }
+    <tr *cdkHeaderRowDef="displayedColumns()" cdk-header-row></tr>
+    <tr *cdkRowDef="let row; columns: displayedColumns()" cdk-row></tr>
+  </table>
+}
+}
