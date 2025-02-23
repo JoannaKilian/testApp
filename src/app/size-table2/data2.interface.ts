@@ -1,10 +1,11 @@
-interface Product {
-    amount: number;
-    color: string;
-    size: string;
+export interface Product {
+  amount: number;
+  color: string;
+  size: string;
 }
 
-interface ProductVM {
-    id: number;
-    product: Product;
+export interface ProductVM {
+  id: number;
+  product: Product;
+  childsProducts: number[];
 }
